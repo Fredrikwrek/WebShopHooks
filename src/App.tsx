@@ -8,24 +8,25 @@ import { Products } from './components/Products';
 import { NoMatch } from './components/NoMatch';
 import { Category } from './components/Category';
 import { IProduct } from './models/IProduct'
-
+import { IAppState } from './models/IAppState';
 
 
 
 function App() {
-  let defaultOrderState: IProduct[] = [];
+  let defaultOrderState: IAppState = { orders: [] }
   const [orderState, setOrderState] = useState(defaultOrderState)
 
   function orderHandler(event: IProduct) {
-    let orders: IProduct[] = orderState;
+    let orders: IProduct[] = orderState.orders;
     let controller = orders.includes(event);
     if (controller === true) { event.amount += 1; }
     else {
       event.amount = 1;
       orders.push(event);
     }
-    setOrderState(orders)
-    console.log(orderState)
+    setOrderState({
+      orders: orders
+    })
   }
 
   return (
@@ -59,7 +60,7 @@ function App() {
           </Switch>
         </div>
         <div className='cart'>
-          <Cart orders={orderState}></Cart>
+          <Cart orders={orderState.orders}></Cart>
         </div>
       </div>
     </Router>

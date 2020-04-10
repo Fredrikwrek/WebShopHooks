@@ -1,0 +1,25 @@
+* {box-sizing: border-box;}
+
+.grid-container {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 0.6fr 1.9fr 1fr;
+  grid-template-rows: 200px;
+  grid-template-areas: "head head head" "category container cart";
+  .head { 
+    grid-area: head;
+    background-color: red; 
+  }
+  .category {
+    grid-area: category;
+    background-color: yellow;
+  }
+  .container { 
+    grid-area: container; 
+    background-color: green;
+  }
+  .cart { 
+    grid-area: cart;
+    background-color: blue; 
+  }
+}

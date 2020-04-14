@@ -3,20 +3,38 @@ import axios from 'axios';
 import { IProduct } from '../models/IProduct'
 import { IOrderHandler } from '../models/IOrderHandler';
 
+
+
 export function Products(props: IOrderHandler) {
-    const defaultProducts: IProduct[] = [];
-    const [products, setProducts] = useState(defaultProducts);
+    const defaultAllProducts: IProduct[] = [];
+    const [allProducts, setAllProducts] = useState(defaultAllProducts);
+    const defautDisplayProducts: IProduct[] = [];
+    const [displayProducts, setDisplayProducts] = useState(defautDisplayProducts);
 
     useEffect(() => {
         axios.get('http://medieinstitutet-wie-products.azurewebsites.net/api/products')
             .then(r => {
-                setProducts(r.data)
+                setAllProducts(r.data);
+                setDisplayProducts(r.data);
             })
     }, [])
 
+    useEffect(() => {
+        if (allProducts.length) {
+            let filtredBySearch: IProduct[] = !props.searchValue.length ? allProducts : props.products;
+            let categoryFilter: IProduct[] = [];
+            if (props.genre !== 0) {
+                categoryFilter = filtredBySearch.filter((item) => {
+                    return item.productCategory.find((itemcat) => { return itemcat.categoryId === props.genre })
+                })
+            }
+            else { categoryFilter = filtredBySearch; }
+            setDisplayProducts(categoryFilter);
+        }
+    }, [props, allProducts])
     return (
         <div>
-            {products.map((item) => {
+            {displayProducts.map((item) => {
                 return (
                     <div id='productContainer' key={item.id}>
                         <h4>{item.name}</h4>

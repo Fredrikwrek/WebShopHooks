@@ -7,14 +7,20 @@ import { Home } from './components/Home';
 import { Products } from './components/Products';
 import { NoMatch } from './components/NoMatch';
 import { Category } from './components/Category';
-import { IProduct } from './models/IProduct'
+import { IProduct, IProductDisplay } from './models/IProduct'
 import { IAppState } from './models/IAppState';
 
 
-
 function App() {
-  let defaultOrderState: IAppState = { orders: [] }
+  const defaultOrderState: IAppState = { orders: [] }
   const [orderState, setOrderState] = useState(defaultOrderState)
+  const dufaultProductDisplay: IProductDisplay = {
+    products: [],
+    searchValue: "",
+    genre: 0
+  };
+  const [productDisplay, setProductDisplay] = useState(dufaultProductDisplay)
+
 
   function orderHandler(event: IProduct) {
     let orders: IProduct[] = orderState.orders;
@@ -26,6 +32,13 @@ function App() {
     }
     setOrderState({
       orders: orders
+    })
+  }
+  function searchHandler(products: IProduct[], searchValue: string, genre: number) {
+    setProductDisplay({
+      products: products,
+      searchValue: searchValue,
+      genre: genre
     })
   }
 
@@ -41,7 +54,7 @@ function App() {
           </nav>
         </div>
         <div className='category'>
-          <Category></Category>
+          <Category searchHandler={searchHandler}></Category>
         </div>
         <div className='container'>
           <Switch>
@@ -49,7 +62,12 @@ function App() {
               <Admin></Admin>
             </Route>
             <Route path='/products'>
-              <Products orderHandler={orderHandler}></Products>
+              <Products
+                products={productDisplay.products}
+                searchValue={productDisplay.searchValue}
+                genre={productDisplay.genre}
+                orderHandler={orderHandler}
+              ></Products>
             </Route>
             <Route path='/' exact>
               <Home></Home>

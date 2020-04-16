@@ -1,8 +1,35 @@
 import { IProduct } from "./IProduct";
 
 export interface IOrderHandler {
-    products: IProduct[]
-    searchValue: string
-    genre: number
-    orderHandler(event: IProduct): void
+    orders: IProduct[]
+    totalPrice: number
+    checkOutKey: boolean
+    removeOrderItem(event: IProduct): void
+    addOrderItem(event: IProduct): void
+    clearOrderList(): void
+    masterKeyCheckOut(key: boolean): void
+}
+export interface IOrderRows {
+    ProductId: number,
+    OrderId: number,
+    Amount: number
+}
+export interface IPostOrder {
+    companyId: number
+    created: string
+    createdBy: string
+    paymentMethod: string
+    totalPrice: number
+    status: number
+    orderRows: IOrderRows[]
+}
+export interface IGetOrder {
+    id: number
+    companyId: number
+    created: string
+    createdBy: string
+    paymentMethod: string
+    totalPrice: number
+    status: number
+    orderRows: IOrderRows[]
 }

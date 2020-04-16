@@ -9,10 +9,15 @@ import { NoMatch } from './components/NoMatch';
 import { Category } from './components/Category';
 import { IProduct, IProductDisplay } from './models/IProduct'
 import { IAppState } from './models/IAppState';
+import { OrderCheckOut } from './components/OrderCheckOut';
 
 
 function App() {
-  const defaultOrderState: IAppState = { orders: [] }
+  const defaultOrderState: IAppState = {
+    orders: [],
+    totalPrice: 0,
+    checkOutKey: false
+  }
   const [orderState, setOrderState] = useState(defaultOrderState)
   const dufaultProductDisplay: IProductDisplay = {
     products: [],
@@ -22,18 +27,48 @@ function App() {
   const [productDisplay, setProductDisplay] = useState(dufaultProductDisplay)
 
 
-  function orderHandler(event: IProduct) {
+  function addOrderItem(item: IProduct) {
     let orders: IProduct[] = orderState.orders;
-    let controller = orders.includes(event);
-    if (controller === true) { event.amount += 1; }
+    let controller = orders.includes(item);
+    if (controller === true) { item.amount += 1; }
     else {
-      event.amount = 1;
-      orders.push(event);
+      item.amount = 1;
+      orders.push(item);
     }
     setOrderState({
-      orders: orders
+      ...orderState,
+      orders: orders,
+      totalPrice: orderState.totalPrice + item.price,
     })
   }
+  function removeOrderItem(item: IProduct) {
+    let orders: IProduct[] = orderState.orders;
+    item.amount -= 1;
+    if (item.amount === 0) {
+      let itemIndex: number = orders.indexOf(item)
+      orders.splice(itemIndex, 1);
+    }
+    setOrderState({
+      ...orderState,
+      orders: orders,
+      totalPrice: orderState.totalPrice - item.price
+    })
+  }
+  function clearOrderList() {
+    console.log("clear")
+    setOrderState({
+      ...orderState,
+      orders: [],
+      totalPrice: 0,
+    })
+  }
+  function masterKeyCheckOut() {
+    setOrderState({
+      ...orderState,
+      checkOutKey: true
+    })
+  }
+
   function searchHandler(products: IProduct[], searchValue: string, genre: number) {
     setProductDisplay({
       products: products,
@@ -66,8 +101,19 @@ function App() {
                 products={productDisplay.products}
                 searchValue={productDisplay.searchValue}
                 genre={productDisplay.genre}
-                orderHandler={orderHandler}
+                addOrderItem={addOrderItem}
               ></Products>
+            </Route>
+            <Route path='/ordercheckout'>
+              <OrderCheckOut
+                orders={orderState.orders}
+                totalPrice={orderState.totalPrice}
+                checkOutKey={orderState.checkOutKey}
+                removeOrderItem={removeOrderItem}
+                addOrderItem={addOrderItem}
+                clearOrderList={clearOrderList}
+                masterKeyCheckOut={masterKeyCheckOut}
+              ></OrderCheckOut>
             </Route>
             <Route path='/' exact>
               <Home></Home>
@@ -78,7 +124,15 @@ function App() {
           </Switch>
         </div>
         <div className='cart'>
-          <Cart orders={orderState.orders}></Cart>
+          <Cart
+            orders={orderState.orders}
+            totalPrice={orderState.totalPrice}
+            checkOutKey={orderState.checkOutKey}
+            removeOrderItem={removeOrderItem}
+            addOrderItem={addOrderItem}
+            clearOrderList={clearOrderList}
+            masterKeyCheckOut={masterKeyCheckOut}
+          ></Cart>
         </div>
       </div>
     </Router>

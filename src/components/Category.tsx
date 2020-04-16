@@ -3,8 +3,6 @@ import axios from 'axios';
 import { ICategory, ISearchHandler } from '../models/ICategory'
 import { Link } from 'react-router-dom';
 
-//Kategori url
-
 export function Category(props: ISearchHandler) {
     const [searchValue, setSearchValue] = useState("");
     const [genre, setGenre] = useState(0);

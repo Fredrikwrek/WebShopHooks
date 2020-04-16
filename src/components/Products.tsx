@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { IProduct } from '../models/IProduct'
-import { IOrderHandler } from '../models/IOrderHandler';
+import { IProduct, IProductState } from '../models/IProduct'
 
-
-
-export function Products(props: IOrderHandler) {
+export function Products(props: IProductState) {
     const defaultAllProducts: IProduct[] = [];
     const [allProducts, setAllProducts] = useState(defaultAllProducts);
     const defautDisplayProducts: IProduct[] = [];
@@ -42,7 +39,7 @@ export function Products(props: IOrderHandler) {
                             <img src={item.imageUrl} alt='IMG' width='200px' />
                         </div>
                         <br />
-                        <button onClick={() => { props.orderHandler(item) }}>Add to cart</button>
+                        <button onClick={() => { props.addOrderItem(item) }}>Add to cart</button>
                     </div>
                 );
             })}

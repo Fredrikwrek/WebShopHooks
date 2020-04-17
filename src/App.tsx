@@ -81,11 +81,11 @@ function App() {
     <Router>
       <div className='grid-container'>
         <div className='head'>
-          <h1>Hemsida</h1>
-          <Link to='/admin'>adminkonto</Link>
+          <h1>Movie Shop</h1>
           <nav>
             <Link to='/'><div>Home</div></Link>
             <Link to='/products'><div>Products</div></Link>
+            <Link to='/admin'><div>Orders</div></Link>
           </nav>
         </div>
         <div className='category'>

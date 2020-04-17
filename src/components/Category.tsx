@@ -26,21 +26,22 @@ export function Category(props: ISearchHandler) {
     }, [searchValue, genre])
 
     return (
-        <React.Fragment>
-            <Link to='/products'>
-                <input type="text" onChange={(e) => { setSearchValue(e.target.value); setGenre(0) }} value={searchValue} />
+        <div>
+            <h3>Find your movie</h3>
+            <Link to='/products' id='searchInputLink'>
+                <input type="text" onChange={(e) => { setSearchValue(e.target.value); setGenre(0) }} value={searchValue} placeholder='Search' />
             </Link>
             <h3>Category</h3>
-            <Link key='123456' to='/products'>
+            <Link key='123456' to='/products' className='categoryLinks'>
                 <div onClick={() => { setGenre(0) }}>All</div>
             </Link>
             {categories.map((item: ICategory) => {
                 return (
-                    <Link key={item.id} to='/products'>
+                    <Link key={item.id} to='/products' className='categoryLinks'>
                         <div key={item.id} onClick={() => { setGenre(item.id); setSearchValue("") }}>{item.name}</div>
                     </Link>
                 );
             })}
-        </React.Fragment>
+        </div>
     );
 }

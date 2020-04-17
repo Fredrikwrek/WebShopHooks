@@ -28,18 +28,32 @@ export function Admin() {
         else setToggle(true);
     }
     return (
-        <React.Fragment>
-            <div>Admin</div>
+        <div id='adminContainer'>
+            <h2>Active orders</h2>
+            <div id='ordersListHeaders'>
+                <div>Order id</div>
+                <div>Created</div>
+                <div>Created by</div>
+                <div>Amount of products</div>
+                <div>Total price</div>
+            </div>
             {orders.map(item => {
+                console.log(item)
                 return (
-                    <div key={item.id}>
-                        <div>{item.createdBy} {item.totalPrice}</div>
+                    <div key={item.id} id='ordersListRow'>
+                        <div>{item.id}</div>
+                        <div>{item.created}</div>
+                        <div>{item.createdBy}</div>
+                        <div>{item.orderRows.map(row => {
+                            return row.amount;
+                        }).reduce((a, b) => { return a + b })}</div>
+                        <div>{item.totalPrice} kr</div>
                         <button onClick={() => {
                             deleteOrder(item.id);
                         }}>X</button>
                     </div>
                 )
             })}
-        </React.Fragment>
+        </div>
     );
 }

@@ -30,19 +30,29 @@ export function Products(props: IProductState) {
         }
     }, [props, allProducts])
     return (
-        <div>
+        <React.Fragment>
             {displayProducts.map((item) => {
                 return (
-                    <div id='productContainer' key={item.id}>
+                    <div className='productContainer' key={item.id}>
                         <h4>{item.name}</h4>
-                        <div className='picFrame'>
-                            <img src={item.imageUrl} alt='IMG' width='200px' />
+                        <div>
+                            <div className='leftProductColumn'>
+                                <div className='picFrame'>
+                                    <img src={item.imageUrl} alt='IMG' width='100px' />
+                                </div>
+                            </div>
+                            <div className='rightProductColumn'>
+                                <div className='rightProductColumnTopRow'>{item.description}</div>
+                                <div className='rightProductColumnbottomRow'>
+                                    <div className='productPrice'>{item.price} kr</div>
+                                    <button onClick={() => { props.addOrderItem(item) }}>Add to cart</button>
+                                </div>
+                            </div>
                         </div>
-                        <br />
-                        <button onClick={() => { props.addOrderItem(item) }}>Add to cart</button>
+                        <hr></hr>
                     </div>
                 );
             })}
-        </div>
+        </React.Fragment>
     );
 }

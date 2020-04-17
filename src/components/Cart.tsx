@@ -22,28 +22,43 @@ export function Cart(props: IOrderHandler) {
         }
     }
     return (
-        <div>
-            <h3>Cart</h3>
-            {props.orders.map(item => {
-                return (
-                    <div key={item.id}>
-                        <div>{item.price} kr {item.name} {item.amount} st</div>
-                        <button onClick={() => props.removeOrderItem(item)}>X</button>
-                        <button onClick={() => props.addOrderItem(item)}>O</button>
-                    </div>
-                );
-            })}
-            <div>total {props.totalPrice} kr</div>
-            <button onClick={props.clearOrderList}>Clear cart</button>
-            <Link
-                to={'/ordercheckout'}
-                onClick={(e) => {
-                    if (!props.orders.length) { e.preventDefault(); setValidation(true) } else { props.masterKeyCheckOut(true) }
-                }}
-            >
-                <button>Checka ut</button>
-            </Link>
-            {addproduct()}
+        <div id='cartContainer'>
+            <h2>Cart</h2>
+            <div id='cartList'>
+                {props.orders.map(item => {
+                    return (
+                        <div key={item.id} className='cartListRow'>
+                            <div className='cartAmountOfMoviesContainer'>
+                                <button onClick={() => props.addOrderItem(item)}>+</button>
+                                <div className='amountOfMovies'>{item.amount} st</div>
+                                <button onClick={() => props.removeOrderItem(item)}>-</button>
+                            </div>
+                            <div className='cartMovieName'>{item.name}</div>
+                            <div className='cartMoviePrice'>{item.price} kr</div>
+                        </div>
+                    );
+                })}
+            </div>
+            <div id='cartTotal'>
+                <div id='cartTotalPrice' >Total {props.totalPrice} kr</div>
+                <div id='clearCartButton'>
+                    <button onClick={props.clearOrderList}>Clear cart</button>
+                </div>
+            </div>
+            <div id='checkOutBUtton'>
+                <Link
+                    to={'/ordercheckout'}
+                    onClick={(e) => {
+                        if (!props.orders.length) {
+                            e.preventDefault();
+                            setValidation(true)
+                        }
+                        else { props.masterKeyCheckOut(true) }
+                    }}>
+                    <button>Checka ut</button>
+                </Link>
+                {addproduct()}
+            </div>
         </div >
     );
 }

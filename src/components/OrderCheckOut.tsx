@@ -24,9 +24,9 @@ export function OrderCheckOut(props: IOrderHandler) {
     useEffect(() => {
         let orderRows: IOrderRows[] = props.orders.map(item => {
             return {
-                ProductId: item.id,
-                OrderId: item.id,
-                Amount: item.amount
+                productId: item.id,
+                orderId: item.id,
+                amount: item.amount
             }
         })
         setOrder({ ...order, orderRows: orderRows, totalPrice: props.totalPrice })
@@ -44,16 +44,23 @@ export function OrderCheckOut(props: IOrderHandler) {
     function checkOutDisplay() {
         if (!done && props.checkOutKey) {
             return (
-                <div>
-                    <h2>Summa att betala {order.totalPrice}</h2>
+                <div id='checkOutForm'>
+                    <h2>Summa att betala {order.totalPrice} kr</h2>
                     <form onSubmit={(e) => {
                         postOrder(e);
                         setDone(true);
+                        setOrder({
+                            ...order,
+                            created: "",
+                            createdBy: "",
+                            paymentMethod: "MasterCard",
+                            status: 0
+                        })
                         props.clearOrderList();
                     }
                     }>
                         <div>
-                            <label htmlFor="paymentMethod">Payment method </label>
+                            <div >Payment method </div>
                             <select name="paymentMethod" onChange={e => {
                                 setOrder({ ...order, paymentMethod: e.target.value })
                             }}>
@@ -62,7 +69,7 @@ export function OrderCheckOut(props: IOrderHandler) {
                             </select>
                         </div>
                         <div>
-                            <label htmlFor="createdBy">Email </label>
+                            <div>Email </div>
                             <input type="email" required name="createdBy" value={order.createdBy} onChange={e => setOrder({ ...order, createdBy: e.target.value })} />
                         </div>
                         <button type="submit" onClick={() => {
@@ -76,11 +83,16 @@ export function OrderCheckOut(props: IOrderHandler) {
         else if (!done && !props.checkOutKey) {
             return (<NoMatch />)
         }
-        else { return (<h2>Tack för ditt köp</h2>) }
+        else {
+            return (<div id='checkOutForm'>
+                <h2>Tack för ditt köp!</h2>
+            </div>)
+        }
     }
 
-    return (<React.Fragment>
-        {checkOutDisplay()}
-    </React.Fragment>
+    return (
+        <React.Fragment>
+            {checkOutDisplay()}
+        </React.Fragment>
     )
 }

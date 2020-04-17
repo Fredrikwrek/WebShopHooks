@@ -10,9 +10,9 @@ export interface IOrderHandler {
     masterKeyCheckOut(key: boolean): void
 }
 export interface IOrderRows {
-    ProductId: number,
-    OrderId: number,
-    Amount: number
+    productId: number,
+    orderId: number,
+    amount: number
 }
 export interface IPostOrder {
     companyId: number

@@ -1,4 +1,21 @@
-* {box-sizing: border-box;}
+@import './sass/varibles';
+@import './sass/mixins';
+@import url('https://fonts.googleapis.com/css?family=Baloo+2:400,700&display=swap');
+
+* {
+  box-sizing: border-box;
+  color: $darkText;
+  font-family: 'Baloo 2', cursive;
+}
+li {
+  @include defaultList();
+}
+a {
+  @include defaultLink();
+}
+button {
+  @include defaultButton();
+}
 
 .grid-container {
   min-height: 100vh;
@@ -8,18 +25,262 @@
   grid-template-areas: "head head head" "category container cart";
   .head { 
     grid-area: head;
-    background-color: red; 
+    background-color: black;
+    @include sticky(-150px, 200px);
+    @include flexColumn();
+    justify-content: space-between;
+    h1 {
+      @include mainTitle();
+    }
+    nav {
+      @include flexRow();
+      border-bottom: 1px solid $darkBackground;
+      a {
+        width: (100%/3);
+        div {
+          @include navButtons();
+        }
+        div:hover {
+          background-color: $hoverOpacity;
+        }
+      }
+    }
   }
   .category {
     grid-area: category;
-    background-color: yellow;
+    background-color: black;
+    div {
+      @include sticky(15%, 500px);
+      @include flexColumn();
+      align-items: center;
+      #searchInputLink {
+        width: 80%;
+        input {
+          width: 100%;
+        }
+      }
+      .categoryLinks {
+        width: 100%;
+        div {
+          @include navButtons()
+        }
+        div:hover {
+          background-color: $hoverOpacity;
+        }
+      }
+    }
   }
   .container { 
     grid-area: container; 
-    background-color: green;
+    background-color: white;
+    #homeContainer {
+      padding-right: 30px;
+      padding-left: 30px;
+        button {
+          margin-top: 100px;
+          width: 100%;
+        }
+    }
+    .productContainer {
+      width: 100%;
+      padding-left: 30px;
+      padding-right: 30px;
+      div {
+        height: 170px;
+        .leftProductColumn {
+          float: left;
+          width: 30%;
+          .picFrame {
+            height: 150px;
+            overflow: hidden;
+          }
+        }
+        .rightProductColumn {
+          float: right;
+          width: 70%;
+          height: 150px;
+          @include flexColumn();
+          justify-content: space-between;
+          .rightProductColumnTopRow {
+            height: 110px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          .rightProductColumnbottomRow {
+            height: 50px;
+            @include flexRow();
+            justify-content: flex-end;
+            align-items: flex-end;
+            .productPrice {
+              width: 100px;
+              height: 30px;
+              line-height: 30px;
+              text-align: end;
+              font-weight: bold;
+              padding-right: 20px;
+            }
+          }
+
+        }
+      }
+    }
+    #checkOutForm {
+      padding-left: 20px;
+      padding-right: 20px;
+      h2 {
+        text-align: center;
+      }
+      form {
+        @include flexColumn();
+        justify-content: center;
+        align-items: center;
+        div {
+          @include flexColumn();
+          align-items: center;
+          width: 100%;
+          div {
+            margin-top: 20px;
+            width: 80%;
+            font-weight: bold;
+          }
+          select {
+            text-align: center;
+            text-align-last: center;
+            width: 80%;
+            max-width: 400px;
+            option {
+              text-align: center;
+            }
+          }
+          input {
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+          }
+        }
+        button {
+          margin-top: 50px;
+          width: 50%;
+        }
+      }
+    }
+    #adminContainer {
+      padding-left: 20px;
+      padding-right: 20px;
+      h2 {
+        margin-bottom: 50px;
+        text-align: center;
+      }
+      #ordersListHeaders {
+        width: 100%;
+        font-weight: bold;
+        @include flexRow();
+        justify-content: start;
+        div {
+          width: (100%/6);
+          text-align: center;
+          line-height: 20px;
+          margin-bottom: 20px;
+        }
+      }
+      #ordersListRow {
+        width: 100%;
+        @include flexRow();
+        justify-content: start;
+        align-items: center;
+        div {
+          width: (100%/6);
+          text-align: center;
+          height: 30px;
+          line-height: 30px;
+          overflow: hidden;
+          text-overflow: clip;
+        }
+        
+        button {
+          background-color: $buttonRed;
+          min-height: 20px;
+          height: 20px;
+          min-width: 20px;
+          width: 20px;
+          line-height: 20px;
+          font-weight: bold;
+        }
+      }
+    }
   }
   .cart { 
     grid-area: cart;
-    background-color: blue; 
+    background-color: $grey; 
+    @include flexRow();
+    justify-content: center;
+    #cartContainer {
+      @include sticky(15%, 500px);
+      width: 90%;
+      #cartList {
+        min-height: 40vh;
+        .cartListRow {
+          height: 30px;
+          @include flexRow();
+          justify-content: space-between;
+          .cartAmountOfMoviesContainer {
+            width: 100px;
+            @include flexRow();
+            justify-content: center;
+            align-items: center;
+            button {
+              min-height: 20px;
+              height: 20px;
+              min-width: 20px;
+              width: 20px;
+              background-color: $buttonGrey;
+              text-align: center;
+              line-height: 20px;
+              font-weight: bold;
+            }
+            .amountOfMovies {
+              margin-left: 7px;
+              margin-right: 7px;
+              width: 35px;
+              text-align: center;
+            }
+          }
+          .cartMovieName {
+            width: 50%;
+            padding-left: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: start;
+            line-height: 30px;
+          }
+          .cartMoviePrice {
+            width: 60px;
+            min-width: 50px;
+            text-align: end;
+            line-height: 30px;
+          }
+        }
+      }
+      #cartTotal {
+        @include flexRow();
+        justify-content: space-between;
+        #cartTotalPrice {
+          height: 30px;
+          line-height: 30px;
+          font-weight: bold;
+        }
+        button {
+          background-color: $buttonGrey;
+        }
+      }
+      #checkOutBUtton {
+        margin-top: 30px;
+        width: 100%;
+        button {
+          width: 100%;
+          font-weight: bold;
+        }
+      }
+    }
   }
 }
